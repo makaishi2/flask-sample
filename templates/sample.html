@@ -1,0 +1,72 @@
+<html>
+<head>
+
+{% extends "layout.html" %}
+{% block body %}
+</head>
+<body>
+<h2>Flask サンプルアプリ</h2>
+<hr>
+<div>
+<label  for="arg1_id">引数1:</label>
+<input type="text" value="123.45" name="arg1_id" id="arg1_id" />
+<br>
+<label  for="arg1_id">引数2:</label>
+<input type="text" value="0.678" name="arg2_id" id="arg2_id" />
+<br>
+<label  for="sum_id">合計: </label>
+<input type="text" name="sum_id" disabled="disabled" id="sum_id" />
+<br>
+<br>
+<input type="button" name="button" value="送信" id="send"/>
+<hr>
+
+</body>
+</html>
+
+<script>
+
+$(function(){
+    $('#send').click(send) 
+});
+
+function call_flask( type, url, error ) {
+
+    // 画面からパラメータを取得してjsonデータにする
+    data1 = {
+        "ARG1": parseFloat($('#arg1_id').val()),
+        "ARG2":  parseFloat($('#arg2_id').val())
+    };
+    console.log(data1);
+
+    // JSON.stringifyでJSONデータをシリアライズする
+    json1 = JSON.stringify(data1);
+
+    // ajax関数でサーバーサイド機能の呼出し
+    $.ajax({
+        type: type,
+        url: url,
+        dataType: "json",
+        data: json1,
+        processData: false,
+        contentType: "application/json",
+        cache: false,
+        timeout: 600000,
+        success: function (data2) {
+            console.log('send callback')
+            console.log(data2);
+            sum = data2['SUM']
+            console.log(sum)
+            $('#sum_id').val(sum)
+        }
+    });
+}
+
+function send() {
+    call_flask( 'POST', '/send', 
+            function(XMLHttpRequest,textStatus,errorThrown){alert('error');} );
+}
+
+</script>
+
+{% endblock %}
