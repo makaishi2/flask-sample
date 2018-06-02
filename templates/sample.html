@@ -32,14 +32,14 @@ $(function(){
 
 function call_flask( type, url, error ) {
 
-    // 画面からパラメータを取得してjsonデータにする
+    // 画面からパラメータを取得して辞書データにする
     data1 = {
-        "ARG1": parseFloat($('#arg1_id').val()),
-        "ARG2":  parseFloat($('#arg2_id').val())
+       "ARG1": parseFloat($('#arg1_id').val()),
+       "ARG2":  parseFloat($('#arg2_id').val())
     };
     console.log(data1);
 
-    // JSON.stringifyでJSONデータをシリアライズする
+    // JSON.stringifyで辞書データをJSON形式にシリアライズする
     json1 = JSON.stringify(data1);
 
     // ajax関数でサーバーサイド機能の呼出し
